@@ -1,0 +1,10 @@
+[package]
+name = "maalik"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+cms-verifier = "0.1.0"

@@ -1,0 +1,13 @@
+[package]
+name = "cms-countersignature"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+cms.workspace = true
+der.workspace = true
+digest.workspace = true
+error_set = { workspace = true, features = ["tracing"] }
+reqwest = "0.12.22"
+x509-cert.workspace = true
+x509-tsp.workspace = true

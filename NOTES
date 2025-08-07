@@ -1,0 +1,2 @@
+openssl ts -query -data "YOUR FILE" -cert -sha256 -no_nonce -out request.tsq
+curl -s -S -H 'Content-Type: application/timestamp-query' --data-binary @request.tsq http://timestamp.digicert.com -o response.tsr

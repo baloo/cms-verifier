@@ -1,0 +1,26 @@
+[package]
+name = "cms-verifier"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+cms.workspace = true
+certval.workspace = true
+der.workspace = true
+digest.workspace = true
+error_set.workspace = true
+log = { version = "0.4", default-features = false }
+x509-cert.workspace = true
+x509-tsp.workspace = true
+sha2.workspace = true
+
+[dev-dependencies]
+cms = { workspace = true, features = ["builder"] }
+cms-countersignature = { version = "0.1.0" }
+error_set = { workspace = true, features = ["tracing"] }
+mock-countersignature.workspace = true
+p256.workspace = true
+rand.workspace = true
+tracing-subscriber.workspace = true
+sha2 = { workspace = true, default-features = true }
+x509-cert = { workspace = true, features = ["builder"] }
