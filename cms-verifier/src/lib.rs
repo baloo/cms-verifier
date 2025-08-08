@@ -17,12 +17,12 @@ use certval::{
     },
 };
 use cms::{
+    attr::MessageDigest,
     cert::CertificateChoices,
     content_info::ContentInfo,
     signed_data::{CertificateSet, SignedData, SignerInfo},
 };
 use der::{
-    asn1::OctetStringRef,
     oid::{
         db::{rfc3161, rfc5280, rfc5911, rfc6268},
         AssociatedOid, ObjectIdentifier,
@@ -177,18 +177,7 @@ impl Context {
             .ok_or(SignerInfoVerificationError::NoMessageDigest)
             .trace_context("no message digest found in signer info")?;
 
-        if message_digest.len() != 1 {
-            return Err(SignerInfoVerificationError::MessageDigestInvalid {
-                len: message_digest.len(),
-            })
-            .trace_context("message digest is invalid, only one value should be present");
-        }
-        let message_digest = message_digest
-            .get(0)
-            .expect("Invariant violation, only one value is present in the attribute");
-
-        let message_digest = message_digest
-            .decode_as::<OctetStringRef>()
+        let message_digest = MessageDigest::try_from(message_digest)
             .map_err(SignerInfoVerificationError::MessageDigestSerialization)
             .trace_context("message digest not serialized as OctetString in signer info")?;
 
@@ -233,13 +222,14 @@ impl Context {
                     .ok_or(SignerInfoVerificationError::NoMessageDigest)
                     .trace_context("no message digest found in signer info")?;
 
-                if signing_time.len() != 1 {
+                if signing_time.values.len() != 1 {
                     return Err(SignerInfoVerificationError::SigningTimeInvalid {
-                        len: signing_time.len(),
+                        len: signing_time.values.len(),
                     })
                     .trace_context("Signing time is invalid, only one value should be present");
                 }
                 let signing_time = signing_time
+                    .values
                     .get(0)
                     .expect("Invariant violation, only one value is present in the attribute");
 

@@ -27,15 +27,15 @@ cms-countersignature = { path = "./cms-countersignature" }
 cms-verifier = { path = "./cms-verifier" }
 mock-countersignature = { path = "./mock-countersignature" }
 
-cmpv2     = { git = "https://github.com/RustCrypto/formats.git" }
-crmf      = { git = "https://github.com/RustCrypto/formats.git" }
-x509-ocsp = { git = "https://github.com/RustCrypto/formats.git" }
-x509-tsp  = { git = "https://github.com/RustCrypto/formats.git" }
+cmpv2      = { git = "https://github.com/RustCrypto/formats.git" }
+crmf       = { git = "https://github.com/RustCrypto/formats.git" }
+x509-ocsp  = { git = "https://github.com/RustCrypto/formats.git" }
+x509-tsp   = { git = "https://github.com/RustCrypto/formats.git" }
+der        = { git = "https://github.com/RustCrypto/formats.git" }
+der_derive = { git = "https://github.com/RustCrypto/formats.git" }
 
-cms        = { path = "../formats/cms" }
-der        = { path = "../formats/der" }
-der_derive = { path = "../formats/der_derive" }
-x509-cert  = { path = "../formats/x509-cert" }
+cms        = { git = "https://github.com/baloo/formats.git", branch = "baloo/cms/wip" }
+x509-cert  = { git = "https://github.com/baloo/formats.git", branch = "baloo/cms/wip" }
 
 certval = { git = "https://github.com/baloo/rust-pki.git", branch = "baloo/bump-2025-08-03" }
 

@@ -231,7 +231,7 @@ dependencies = [
 [[package]]
 name = "cmpv2"
 version = "0.3.0-pre.0"
-source = "git+https://github.com/RustCrypto/formats.git#0f0344a334758e4bed2d516408348a87bd19028b"
+source = "git+https://github.com/RustCrypto/formats.git#cfacd3efed49b28f38e69612221b8af5f33a5cbf"
 dependencies = [
  "crmf",
  "der",
@@ -242,6 +242,7 @@ dependencies = [
 [[package]]
 name = "cms"
 version = "0.3.0-pre.0"
+source = "git+https://github.com/baloo/formats.git?branch=baloo%2Fcms%2Fwip#1e327df3b2dbbae84115cc37dd8cb530ccfae606"
 dependencies = [
  "aes",
  "aes-kw",
@@ -329,7 +330,7 @@ dependencies = [
 [[package]]
 name = "crmf"
 version = "0.3.0-pre.0"
-source = "git+https://github.com/RustCrypto/formats.git#0f0344a334758e4bed2d516408348a87bd19028b"
+source = "git+https://github.com/RustCrypto/formats.git#cfacd3efed49b28f38e69612221b8af5f33a5cbf"
 dependencies = [
  "cms",
  "der",
@@ -408,6 +409,7 @@ dependencies = [
 [[package]]
 name = "der"
 version = "0.8.0-rc.8"
+source = "git+https://github.com/RustCrypto/formats.git#cfacd3efed49b28f38e69612221b8af5f33a5cbf"
 dependencies = [
  "const-oid",
  "der_derive",
@@ -419,6 +421,7 @@ dependencies = [
 [[package]]
 name = "der_derive"
 version = "0.8.0-rc.4"
+source = "git+https://github.com/RustCrypto/formats.git#cfacd3efed49b28f38e69612221b8af5f33a5cbf"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2513,6 +2516,7 @@ checksum = "ea2f10b9bb0928dfb1b42b65e1f9e36f7f54dbdf08457afefb38afcdec4fa2bb"
 [[package]]
 name = "x509-cert"
 version = "0.3.0-rc.1"
+source = "git+https://github.com/baloo/formats.git?branch=baloo%2Fcms%2Fwip#1e327df3b2dbbae84115cc37dd8cb530ccfae606"
 dependencies = [
  "const-oid",
  "der",
@@ -2525,7 +2529,7 @@ dependencies = [
 [[package]]
 name = "x509-ocsp"
 version = "0.3.0-pre"
-source = "git+https://github.com/RustCrypto/formats.git#ee30600f303b9206e99af9967414c48290758006"
+source = "git+https://github.com/RustCrypto/formats.git#cfacd3efed49b28f38e69612221b8af5f33a5cbf"
 dependencies = [
  "const-oid",
  "der",
@@ -2536,7 +2540,7 @@ dependencies = [
 [[package]]
 name = "x509-tsp"
 version = "0.2.0-pre"
-source = "git+https://github.com/RustCrypto/formats.git#0f0344a334758e4bed2d516408348a87bd19028b"
+source = "git+https://github.com/RustCrypto/formats.git#cfacd3efed49b28f38e69612221b8af5f33a5cbf"
 dependencies = [
  "cmpv2",
  "cms",

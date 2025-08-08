@@ -2,15 +2,15 @@ use cms::{
     cert::{CertificateChoices, IssuerAndSerialNumber},
     signed_data::{CertificateSet, SignerIdentifier},
 };
-use der::{asn1::SetOfVec, oid::ObjectIdentifier};
+use der::oid::ObjectIdentifier;
 use x509_cert::{
-    attr::{AttributeValue, Attributes},
+    attr::{Attribute, AttributeValue, Attributes},
     ext::pkix::SubjectKeyIdentifier,
     Certificate,
 };
 
 pub(crate) trait GetAttribute<'a> {
-    fn get_attr(&self, oid: ObjectIdentifier) -> Option<&SetOfVec<AttributeValue>>;
+    fn get_attr(&self, oid: ObjectIdentifier) -> Option<&Attribute>;
 
     fn iter_values(&'a self, oid: ObjectIdentifier) -> Self::Iter;
 
@@ -18,10 +18,10 @@ pub(crate) trait GetAttribute<'a> {
 }
 
 impl<'a> GetAttribute<'a> for Attributes {
-    fn get_attr(&self, oid: ObjectIdentifier) -> Option<&SetOfVec<AttributeValue>> {
+    fn get_attr(&self, oid: ObjectIdentifier) -> Option<&Attribute> {
         for attr in self.iter() {
             if attr.oid == oid {
-                return Some(&attr.values);
+                return Some(attr);
             }
         }
 
