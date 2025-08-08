@@ -194,7 +194,7 @@ fn sign_payload(payload: &[u8]) -> (Certificate, Certificate, ContentInfo) {
     };
     let mut message_digest_values: SetOfVec<AttributeValue> = Default::default();
     let mut digest = Sha256::new();
-    digest.update("foo");
+    digest.update(payload);
     let message_digest_value = MessageDigest::from_digest(digest).unwrap();
     message_digest_values
         .insert(Any::from(message_digest_value.as_octet_string_ref()))
