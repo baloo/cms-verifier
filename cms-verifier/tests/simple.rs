@@ -12,14 +12,10 @@ use cms_verifier::Context;
 use der::{
     asn1::{Any, SetOfVec},
     oid::db::{rfc3161, rfc5280, rfc5911, rfc5912, rfc6268},
-    pem::PemLabel,
-    DateTime, Decode, Encode, EncodePem, Length, Writer,
+    DateTime, Decode, Encode,
 };
 use mock_countersignature::MockTsa;
-use p256::{
-    ecdsa::{DerSignature, SigningKey},
-    pkcs8::EncodePrivateKey,
-};
+use p256::ecdsa::{DerSignature, SigningKey};
 use sha2::{Digest, Sha256};
 use std::str::FromStr;
 use x509_cert::{
@@ -166,22 +162,6 @@ fn sign_payload(payload: &[u8]) -> (Certificate, Certificate, ContentInfo) {
     .unwrap();
 
     let (root_cert, (signer_cert, signer)) = make_signer_identity();
-    std::fs::write(
-        "/tmp/time-root.pem",
-        mock_tsa.root().to_pem(Default::default()).unwrap(),
-    );
-    std::fs::write(
-        "/tmp/root.pem",
-        root_cert.to_pem(Default::default()).unwrap(),
-    );
-    std::fs::write(
-        "/tmp/leaf.pem",
-        signer_cert.to_pem(Default::default()).unwrap(),
-    );
-    std::fs::write(
-        "/tmp/leaf.key",
-        signer.to_pkcs8_pem(Default::default()).unwrap(),
-    );
 
     let signed_data = EncapsulatedContentInfo {
         econtent_type: rfc5911::ID_DATA,
@@ -232,12 +212,14 @@ fn sign_payload(payload: &[u8]) -> (Certificate, Certificate, ContentInfo) {
             let ts = mock_tsa
                 .sign_timestamp(DateTime::from_str("2021-06-30T23:59:59Z").unwrap(), hash)
                 .unwrap();
-            let mut unsigned_attrs = signer_info.unsigned_attrs.get_or_insert_default();
+            let unsigned_attrs = signer_info.unsigned_attrs.get_or_insert_default();
             // TODO: there might be more than one value
-            unsigned_attrs.insert(Attribute {
-                oid: rfc3161::ID_AA_TIME_STAMP_TOKEN,
-                values: SetOfVec::from_iter([Any::encode_from(&ts).unwrap()]).unwrap(),
-            });
+            unsigned_attrs
+                .insert(Attribute {
+                    oid: rfc3161::ID_AA_TIME_STAMP_TOKEN,
+                    values: SetOfVec::from_iter([Any::encode_from(&ts).unwrap()]).unwrap(),
+                })
+                .unwrap();
             Ok(())
         })
         .expect("add signer info")
@@ -245,38 +227,6 @@ fn sign_payload(payload: &[u8]) -> (Certificate, Certificate, ContentInfo) {
         .expect("add signer certificate")
         .build()
         .expect("sign document");
-
-    let signed_data_pkcs7_der = signed_data_pkcs7
-        .to_der()
-        .expect("conversion of signed data to DER failed.");
-
-    struct ContentInfoPem<'a>(&'a ContentInfo);
-
-    impl<'a> Encode for ContentInfoPem<'a> {
-        fn encoded_len(&self) -> der::Result<Length> {
-            self.0.encoded_len()
-        }
-        fn encode(&self, encoder: &mut impl Writer) -> der::Result<()> {
-            self.0.encode(encoder)
-        }
-    }
-
-    impl PemLabel for ContentInfoPem<'_> {
-        const PEM_LABEL: &'static str = "CMS";
-    }
-
-    println!(
-        "{}",
-        ContentInfoPem(&signed_data_pkcs7)
-            .to_pem(Default::default())
-            .unwrap()
-    );
-    std::fs::write(
-        "/tmp/cms.pem",
-        ContentInfoPem(&signed_data_pkcs7)
-            .to_pem(Default::default())
-            .unwrap(),
-    );
 
     (mock_tsa.root(), root_cert, signed_data_pkcs7)
 }
