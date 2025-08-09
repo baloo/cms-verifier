@@ -275,8 +275,10 @@ impl Context {
         signer_identity: &Certificate,
         certificates: &CertificateSet,
         time_of_interest: TimeOfInterest,
-        cps: CertificationPathSettings,
+        mut cps: CertificationPathSettings,
     ) -> Result<(), PathBuildingError> {
+        cps.set_time_of_interest(time_of_interest.clone());
+
         // TODO TryFrom<Certificate<P>>
         let leaf = PDVCertificate::try_from(signer_identity.to_der()?.as_slice()).unwrap();
 
