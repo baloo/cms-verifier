@@ -453,7 +453,7 @@ impl Context {
         )?;
 
         let trusted_time = tstinfo.gen_time.to_date_time();
-        trace!("Countersignature time: {trusted_time}");
+        trace!("Authenticated signature time: {trusted_time}");
 
         Ok(trusted_time)
     }
